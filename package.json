@@ -1,6 +1,6 @@
 {
   "name": "berrymarketcap",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Berry Market Cap is CoinMarketCap API client - TypeScript and JavaScript library",
   "repository": {
     "url": "https://github.com/BerryWallet/berrymarketcap",
@@ -25,20 +25,13 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-node6": "^11.0.0",
     "babel-preset-stage-0": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "babel-preset-stage-3": "^6.24.1",
     "babel-runtime": "6.11.6",
-    "babelify": "^7.3.0",
     "file-loader": "^1.1.5",
     "gulp": "^3.9.1",
     "gulp-typescript": "^3.2.3",
     "gulp-webpack": "^1.5.0",
     "jshint": "^2.9.5",
-    "tsify": "^3.0.4",
-    "typescript": "^2.6.2",
-    "vinyl-named": "^1.1.0",
-    "vinyl-source-stream": "^1.1.0"
+    "typescript": "^2.6.2"
   },
   "scripts": {
     "build": "$(npm bin)/gulp build"

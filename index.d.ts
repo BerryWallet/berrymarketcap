@@ -14,14 +14,19 @@ export interface IGlobalRequestOptions {
     convert?: string;
 }
 
+export interface IBerryMarketCapConstructor {
+    new (options?: IClientOptions): IBerryMarketCap;
+}
+
 export interface IBerryMarketCap {
     axios: AxiosInstance;
-    // new (options?: IClientOptions);
 
     getTicker(options?: ITickerRequestOptions): AxiosPromise;
     getGlobal(options?: IGlobalRequestOptions): AxiosPromise;
 }
 
-declare const BerryMarketCap: IBerryMarketCap;
+declare class BerryMarketCap implements IBerryMarketCap {
+    new (options?: IClientOptions);
+}
 
 export default BerryMarketCap;

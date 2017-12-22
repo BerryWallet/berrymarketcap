@@ -2,7 +2,8 @@ import {
   IBerryMarketCap,
   IClientOptions,
   ITickerRequestOptions,
-  IGlobalRequestOptions
+  IGlobalRequestOptions,
+  IBerryMarketCapConstructor
 } from '../index';
 
 import axios, { AxiosInstance, AxiosPromise } from 'axios';
@@ -15,7 +16,7 @@ import {
 export default class BerryMarketCap implements IBerryMarketCap {
   axios: AxiosInstance;
 
-  constructor(options: IClientOptions = {}) {
+  constructor (options?: IClientOptions) {
     this.axios = axios.create({
       url: `${COINMARKETCAP_API_URL}/${options.version || DEFAULT_API_VERSION}`,
       headers: {
@@ -24,7 +25,6 @@ export default class BerryMarketCap implements IBerryMarketCap {
       }
     })
   }
-
 
   /**
    * Get ticker information
