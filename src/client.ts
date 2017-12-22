@@ -1,5 +1,4 @@
 import {
-  IBerryMarketCapStatic,
   IBerryMarketCap,
   IClientOptions,
   ITickerRequestOptions,
@@ -42,7 +41,7 @@ export class BerryMarketCap implements IBerryMarketCap {
    */
   getTicker(options?: ITickerRequestOptions): AxiosPromise {
     let requestPath: string = '/ticker';
-    if (options.currency) {
+    if (options && options.currency) {
       requestPath = `${requestPath}/${options.currency.toLowerCase()}`;
     }
 
@@ -79,8 +78,8 @@ export class BerryMarketCap implements IBerryMarketCap {
   }
 }
 
-export default class BerryMarketCapStatic implements IBerryMarketCapStatic {
-  create(options?: IClientOptions): IBerryMarketCap {
-    return new BerryMarketCap(options);
-  }
+function createBerryMarketCapClient(options?: IClientOptions): IBerryMarketCap {
+  return new BerryMarketCap(options);
 }
+
+export default createBerryMarketCapClient;
