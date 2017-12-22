@@ -1,9 +1,9 @@
 import {
+  IBerryMarketCapStatic,
   IBerryMarketCap,
   IClientOptions,
   ITickerRequestOptions,
-  IGlobalRequestOptions,
-  IBerryMarketCapConstructor
+  IGlobalRequestOptions
 } from '../index';
 
 import axios, { AxiosInstance, AxiosPromise } from 'axios';
@@ -13,7 +13,7 @@ import {
   DEFAULT_API_VERSION
 } from './constants'
 
-export default class BerryMarketCap implements IBerryMarketCap {
+export class BerryMarketCap implements IBerryMarketCap {
   axios: AxiosInstance;
 
   constructor (options?: IClientOptions) {
@@ -76,5 +76,11 @@ export default class BerryMarketCap implements IBerryMarketCap {
     return this.axios.get('/global', {
       params: params
     });
+  }
+}
+
+export default class BerryMarketCapStatic implements IBerryMarketCapStatic {
+  create(options?: IClientOptions): IBerryMarketCap {
+    return new BerryMarketCap(options);
   }
 }

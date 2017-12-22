@@ -14,10 +14,6 @@ export interface IGlobalRequestOptions {
     convert?: string;
 }
 
-export interface IBerryMarketCapConstructor {
-    new (options?: IClientOptions): IBerryMarketCap;
-}
-
 export interface IBerryMarketCap {
     axios: AxiosInstance;
 
@@ -25,8 +21,10 @@ export interface IBerryMarketCap {
     getGlobal(options?: IGlobalRequestOptions): AxiosPromise;
 }
 
-declare class BerryMarketCap implements IBerryMarketCap {
-    new (options?: IClientOptions);
+export interface IBerryMarketCapStatic {
+    create(options?: IClientOptions): IBerryMarketCap;
 }
 
-export default BerryMarketCap;
+declare const BerryMarketCapStatic: IBerryMarketCapStatic;
+
+export default BerryMarketCapStatic;
