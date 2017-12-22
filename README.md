@@ -1,2 +1,2 @@
-# coinmarkercap
-CoinMarketCap API - JavaScript with TypeScript declaration library
+# BerryMarketCap
+CoinMarketCap API client - TypeScript and JavaScript library
