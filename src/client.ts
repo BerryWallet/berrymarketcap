@@ -1,85 +1,86 @@
 import {
-  IBerryMarketCap,
-  IClientOptions,
-  ITickerRequestOptions,
-  IGlobalRequestOptions
+    IBerryMarketCap,
+    IClientOptions,
+    ITickerRequestOptions,
+    IGlobalRequestOptions
 } from '../index';
 
-import axios, { AxiosInstance, AxiosPromise } from 'axios';
-import qs from 'qs';
 import {
-  COINMARKETCAP_API_URL, 
-  DEFAULT_API_VERSION
-} from './constants'
+    defaultTickerRequestOptions,
+    defaultClientOptions,
+    defaultGlobalRequestOptions
+} from './default';
+
+import axios, {AxiosInstance, AxiosPromise} from 'axios';
 
 export class BerryMarketCap implements IBerryMarketCap {
-  axios: AxiosInstance;
+    axios: AxiosInstance;
+    options: IClientOptions;
 
-  constructor (options?: IClientOptions) {
-    this.axios = axios.create({
-      url: `${COINMARKETCAP_API_URL}/${options.version || DEFAULT_API_VERSION}`,
-      headers: {
-        'Accept': 'application/json',
-        'Accept-Charset': 'utf-8'
-      }
-    })
-  }
+    constructor(options?: IClientOptions) {
 
-  /**
-   * Get ticker information
-   *
-   * @param {Object=} options Options for the request:
-   * @param {Int=} options.limit  Only returns the top limit results
-   * @param {String=} options.convert  Return price, 24h volume, and market cap in terms of another currency
-   * @param {String=} options.currency  Return only specific currency
-   *
-   * @example
-   * const berryCapClient = new BerryMarketCap()
-   * berryCapClient.getTicker({limit: 3}).then(console.log).catch(console.error)
-   * berryCapClient.getTicker({limit: 1, currency: 'bitcoin'}).then(console.log).catch(console.error)
-   * berryCapClient.getTicker({convert: 'EUR'}).then(console.log).catch(console.error)
-   */
-  getTicker(options?: ITickerRequestOptions): AxiosPromise {
-    let requestPath: string = '/ticker';
-    if (options && options.currency) {
-      requestPath = `${requestPath}/${options.currency.toLowerCase()}`;
+        this.options = Object.assign({}, defaultClientOptions, options);
+
+        this.axios = axios.create({
+            url: `${this.options.url}/${this.options.version}`
+        })
     }
 
-    const params = {
-      convert: options.convert ? options.convert.toUpperCase() : null,
-      limit: options.limit || null
-    };
+    /**
+     * Get ticker information
+     *
+     * @example
+     * const berryCapClient = new BerryMarketCap()
+     * berryCapClient.getTicker({limit: 3}).then(console.log).catch(console.error)
+     * berryCapClient.getTicker({limit: 1, currency: 'bitcoin'}).then(console.log).catch(console.error)
+     * berryCapClient.getTicker({convert: 'EUR'}).then(console.log).catch(console.error)
+     */
+    getTicker(options?: ITickerRequestOptions): AxiosPromise {
+        let requestPath: string = '/ticker';
 
-    return this.axios.get(requestPath, {
-      params: params
-    });
-  }
+        const requestOptions = Object.assign({}, defaultTickerRequestOptions, options);
 
+        if (requestOptions.currency) {
+            requestPath = `${requestPath}/${requestOptions.currency.toLowerCase()}`;
+        }
 
-  /**
-   * Get global information
-   *
-   * @param {Object|String=} options  Options for the request
-   * @param {String=} options.convert  Return price, 24h volume, and market cap in terms of another currency
-   *
-   * @example
-   * const berryCapClient = new BerryMarketCap()
-   * berryCapClient.getGlobal({convert: 'GBP'}).then(console.log).catch(console.error)
-   */
-  getGlobal(options?: IGlobalRequestOptions): AxiosPromise {
-    const params = {};
-    if (options.convert) {
-      params['convert'] = options.convert.toUpperCase();
+        const params = {
+            convert: requestOptions.convert ? requestOptions.convert.toUpperCase() : null,
+            limit: requestOptions.limit || null
+        };
+
+        return this.axios.get(requestPath, {
+            params: params
+        });
     }
 
-    return this.axios.get('/global', {
-      params: params
-    });
-  }
+
+    /**
+     * Get global information
+     *
+     * @param {Object|String=} options  Options for the request
+     * @param {String=} options.convert  Return price, 24h volume, and market cap in terms of another currency
+     *
+     * @example
+     * const berryCapClient = new BerryMarketCap()
+     * berryCapClient.getGlobal({convert: 'GBP'}).then(console.log).catch(console.error)
+     */
+    getGlobal(options?: IGlobalRequestOptions): AxiosPromise {
+        const requestOptions = Object.assign({}, defaultGlobalRequestOptions, options);
+
+        const params = {};
+        if (requestOptions.convert) {
+            params['convert'] = options.convert.toUpperCase();
+        }
+
+        return this.axios.get('/global', {
+            params: params
+        });
+    }
 }
 
 function createBerryMarketCapClient(options?: IClientOptions): IBerryMarketCap {
-  return new BerryMarketCap(options);
+    return new BerryMarketCap(options);
 }
 
 export default createBerryMarketCapClient;

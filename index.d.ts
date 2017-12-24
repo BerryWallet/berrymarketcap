@@ -1,7 +1,8 @@
-import { AxiosInstance, AxiosPromise } from "axios";
+import {AxiosInstance, AxiosPromise} from "axios";
 
 export interface IClientOptions {
-    version?: string
+    url: string
+    version: string
 }
 
 export interface ITickerRequestOptions {
@@ -16,6 +17,7 @@ export interface IGlobalRequestOptions {
 
 export interface IBerryMarketCap {
     axios: AxiosInstance;
+    options: IClientOptions;
 
     getTicker(options?: ITickerRequestOptions): AxiosPromise;
     getGlobal(options?: IGlobalRequestOptions): AxiosPromise;
