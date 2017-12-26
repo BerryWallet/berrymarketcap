@@ -28,32 +28,43 @@ export class BerryMarketCap implements IBerryMarketCap {
     }
 
     /**
-     * Get ticker information
+     * Get specific ticker information
      *
      * @example
      * const berryCapClient = new BerryMarketCap()
-     * berryCapClient.getTicker({limit: 3}).then(console.log).catch(console.error)
-     * berryCapClient.getTicker({limit: 1, currency: 'bitcoin'}).then(console.log).catch(console.error)
-     * berryCapClient.getTicker({convert: 'EUR'}).then(console.log).catch(console.error)
+     * berryCapClient.getTicker('BTC', {convert: 'EUR'}).then(console.log).catch(console.error)
      */
-    getTicker(options?: ITickerRequestOptions): AxiosPromise {
-        let requestPath: string = '/ticker';
-
+    getTicker(currency: string, options?: ITickerRequestOptions): AxiosPromise {
         const requestOptions = Object.assign({}, defaultTickerRequestOptions, options);
 
-        if (requestOptions.currency) {
-            requestPath = `${requestPath}/${requestOptions.currency.toLowerCase()}`;
-        }
-
         const params = {
-            convert: requestOptions.convert ? requestOptions.convert.toUpperCase() : null,
-            limit: requestOptions.limit || null
+            convert: requestOptions.convert ? requestOptions.convert.toUpperCase() : null
         };
 
-        return this.axios.get(requestPath, {
+        return this.axios.get('/ticker' + currency.toLowerCase(), {
             params: params
         });
     }
+
+    /**
+     * Get all tickers information
+     *
+     * @example
+     * const berryCapClient = new BerryMarketCap()
+     * berryCapClient.getTicker({limit: 100, convert: 'EUR'}).then(console.log).catch(console.error)
+     */
+    getTickers(options?: ITickerRequestOptions): AxiosPromise {
+      const requestOptions = Object.assign({}, defaultTickerRequestOptions, options);
+
+      const params = {
+          convert: requestOptions.convert ? requestOptions.convert.toUpperCase() : null,
+          limit: requestOptions.limit ? requestOptions.limit : null
+      };
+
+      return this.axios.get('/ticker', {
+          params: params
+      });
+  }
 
 
     /**

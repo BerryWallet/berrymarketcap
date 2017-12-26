@@ -8,7 +8,6 @@ export interface IClientOptions {
 
 export interface ITickerRequestOptions {
     limit?: number;
-    currency?: string;
     convert?: string;
 }
 
@@ -20,7 +19,8 @@ export interface IBerryMarketCap {
     axios: AxiosInstance;
     options: IClientOptions;
 
-    getTicker(options?: ITickerRequestOptions): AxiosPromise;
+    getTicker(currency: string, options?: ITickerRequestOptions): AxiosPromise;
+    getTickers(options?: ITickerRequestOptions): AxiosPromise;
     getGlobal(options?: IGlobalRequestOptions): AxiosPromise;
 }
 

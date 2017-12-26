@@ -11,7 +11,6 @@ import {
 
 export const defaultTickerRequestOptions: ITickerRequestOptions = {
     limit: 100,
-    currency: null,
     convert: null
 };
 
