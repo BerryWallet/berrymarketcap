@@ -17,7 +17,8 @@ export const defaultTickerRequestOptions: ITickerRequestOptions = {
 
 export const defaultClientOptions: IClientOptions = {
     url: COINMARKETCAP_API_URL,
-    version: DEFAULT_API_VERSION
+    version: DEFAULT_API_VERSION,
+    timeout: 5000
 };
 
 export const defaultGlobalRequestOptions: IGlobalRequestOptions = {

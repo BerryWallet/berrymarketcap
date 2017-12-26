@@ -23,7 +23,7 @@ export class BerryMarketCap implements IBerryMarketCap {
 
         this.axios = axios.create({
           baseURL: `${this.options.url}/${this.options.version}`,
-          timeout: 3000          
+          timeout: this.options.timeout          
         })
     }
 

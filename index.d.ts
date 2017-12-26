@@ -3,6 +3,7 @@ import {AxiosInstance, AxiosPromise} from "axios";
 export interface IClientOptions {
     url?: string
     version?: string
+    timeout?: number
 }
 
 export interface ITickerRequestOptions {
