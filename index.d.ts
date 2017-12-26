@@ -1,8 +1,8 @@
 import {AxiosInstance, AxiosPromise} from "axios";
 
 export interface IClientOptions {
-    url: string
-    version: string
+    url?: string
+    version?: string
 }
 
 export interface ITickerRequestOptions {

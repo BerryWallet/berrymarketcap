@@ -1,6 +1,6 @@
 {
     "name": "berrymarketcap",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Berry Market Cap is CoinMarketCap API client - TypeScript and JavaScript library",
     "repository": {
         "url": "https://github.com/BerryWallet/berrymarketcap",

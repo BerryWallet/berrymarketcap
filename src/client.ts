@@ -22,7 +22,8 @@ export class BerryMarketCap implements IBerryMarketCap {
         this.options = Object.assign({}, defaultClientOptions, options);
 
         this.axios = axios.create({
-            url: `${this.options.url}/${this.options.version}`
+          baseURL: `${this.options.url}/${this.options.version}`,
+          timeout: 3000          
         })
     }
 
