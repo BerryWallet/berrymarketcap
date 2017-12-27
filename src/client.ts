@@ -41,7 +41,7 @@ export class BerryMarketCap implements IBerryMarketCap {
             convert: requestOptions.convert ? requestOptions.convert.toUpperCase() : null
         };
 
-        return this.axios.get('/ticker' + currency.toLowerCase(), {
+        return this.axios.get(`/ticker/${currency.toLowerCase()}/`, {
             params: params
         });
     }
@@ -61,7 +61,7 @@ export class BerryMarketCap implements IBerryMarketCap {
           limit: requestOptions.limit ? requestOptions.limit : null
       };
 
-      return this.axios.get('/ticker', {
+      return this.axios.get('/ticker/', {
           params: params
       });
   }
