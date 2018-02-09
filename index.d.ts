@@ -19,9 +19,11 @@ export interface IBerryMarketCap {
     axios: AxiosInstance;
     options: IClientOptions;
 
-    getTicker(currency: string, options?: ITickerRequestOptions): AxiosPromise;
-    getTickers(options?: ITickerRequestOptions): AxiosPromise;
-    getGlobal(options?: IGlobalRequestOptions): AxiosPromise;
+    getTicker(currency: string, options?: ITickerRequestOptions): Promise<any>;
+
+    getTickers(options?: ITickerRequestOptions): Promise<any>;
+
+    getGlobal(options?: IGlobalRequestOptions): Promise<any>;
 }
 
 declare function createBerryMarketCapClient(options?: IClientOptions): IBerryMarketCap;

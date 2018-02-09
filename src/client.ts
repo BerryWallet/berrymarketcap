@@ -11,7 +11,7 @@ import {
     defaultGlobalRequestOptions
 } from './default';
 
-import axios, {AxiosInstance, AxiosPromise} from 'axios';
+import axios, {AxiosInstance, AxiosPromise, AxiosResponse} from 'axios';
 
 export class BerryMarketCap implements IBerryMarketCap {
     axios: AxiosInstance;
@@ -22,9 +22,17 @@ export class BerryMarketCap implements IBerryMarketCap {
         this.options = Object.assign({}, defaultClientOptions, options);
 
         this.axios = axios.create({
-          baseURL: `${this.options.url}/${this.options.version}`,
-          timeout: this.options.timeout          
+            baseURL: `${this.options.url}/${this.options.version}`,
+            timeout: this.options.timeout
         })
+    }
+
+    /**
+     * @param {AxiosResponse} response
+     * @returns {any}
+     */
+    protected handleResponse(response: AxiosResponse): any {
+        return response.data;
     }
 
     /**
@@ -34,16 +42,18 @@ export class BerryMarketCap implements IBerryMarketCap {
      * const berryCapClient = new BerryMarketCap()
      * berryCapClient.getTicker('BTC', {convert: 'EUR'}).then(console.log).catch(console.error)
      */
-    getTicker(currency: string, options?: ITickerRequestOptions): AxiosPromise {
+    getTicker(currency: string, options?: ITickerRequestOptions): Promise<any> {
         const requestOptions = Object.assign({}, defaultTickerRequestOptions, options);
 
         const params = {
             convert: requestOptions.convert ? requestOptions.convert.toUpperCase() : null
         };
 
-        return this.axios.get(`/ticker/${currency.toLowerCase()}/`, {
-            params: params
-        });
+        return this.axios
+            .get(`/ticker/${currency.toLowerCase()}/`, {
+                params: params
+            })
+            .then(this.handleResponse)
     }
 
     /**
@@ -53,18 +63,20 @@ export class BerryMarketCap implements IBerryMarketCap {
      * const berryCapClient = new BerryMarketCap()
      * berryCapClient.getTicker({limit: 100, convert: 'EUR'}).then(console.log).catch(console.error)
      */
-    getTickers(options?: ITickerRequestOptions): AxiosPromise {
-      const requestOptions = Object.assign({}, defaultTickerRequestOptions, options);
+    getTickers(options?: ITickerRequestOptions): Promise<any> {
+        const requestOptions = Object.assign({}, defaultTickerRequestOptions, options);
 
-      const params = {
-          convert: requestOptions.convert ? requestOptions.convert.toUpperCase() : null,
-          limit: requestOptions.limit ? requestOptions.limit : null
-      };
+        const params = {
+            convert: requestOptions.convert ? requestOptions.convert.toUpperCase() : null,
+            limit: requestOptions.limit ? requestOptions.limit : null
+        };
 
-      return this.axios.get('/ticker/', {
-          params: params
-      });
-  }
+        return this.axios
+            .get('/ticker/', {
+                params: params
+            })
+            .then(this.handleResponse);
+    }
 
 
     /**
@@ -77,7 +89,7 @@ export class BerryMarketCap implements IBerryMarketCap {
      * const berryCapClient = new BerryMarketCap()
      * berryCapClient.getGlobal({convert: 'GBP'}).then(console.log).catch(console.error)
      */
-    getGlobal(options?: IGlobalRequestOptions): AxiosPromise {
+    getGlobal(options?: IGlobalRequestOptions): Promise<any> {
         const requestOptions = Object.assign({}, defaultGlobalRequestOptions, options);
 
         const params = {};
@@ -85,9 +97,11 @@ export class BerryMarketCap implements IBerryMarketCap {
             params['convert'] = options.convert.toUpperCase();
         }
 
-        return this.axios.get('/global', {
-            params: params
-        });
+        return this.axios
+            .get('/global', {
+                params: params
+            })
+            .then(this.handleResponse)
     }
 }
 
