@@ -1,5 +1,6 @@
 import {
     IBerryMarketCap,
+    ITickerData,
     IClientOptions,
     ITickerRequestOptions,
     IGlobalRequestOptions
@@ -17,7 +18,7 @@ export class BerryMarketCap implements IBerryMarketCap {
     axios: AxiosInstance;
     options: IClientOptions;
 
-    constructor(options?: IClientOptions) {
+    public constructor(options?: IClientOptions) {
 
         this.options = Object.assign({}, defaultClientOptions, options);
 
@@ -40,9 +41,9 @@ export class BerryMarketCap implements IBerryMarketCap {
      *
      * @example
      * const berryCapClient = new BerryMarketCap()
-     * berryCapClient.getTicker('BTC', {convert: 'EUR'}).then(console.log).catch(console.error)
+     * berryCapClient.getTicker('bitcoin', {convert: 'EUR'}).then(console.log).catch(console.error)
      */
-    getTicker(currency: string, options?: ITickerRequestOptions): Promise<any> {
+    public getTicker(currency: string, options?: ITickerRequestOptions): Promise<ITickerData> {
         const requestOptions = Object.assign({}, defaultTickerRequestOptions, options);
 
         const params = {
@@ -53,7 +54,9 @@ export class BerryMarketCap implements IBerryMarketCap {
             .get(`/ticker/${currency.toLowerCase()}/`, {
                 params: params
             })
-            .then(this.handleResponse)
+            .then(this.handleResponse).then((tickerData) => {
+                return tickerData[0];
+            })
     }
 
     /**
@@ -63,7 +66,7 @@ export class BerryMarketCap implements IBerryMarketCap {
      * const berryCapClient = new BerryMarketCap()
      * berryCapClient.getTicker({limit: 100, convert: 'EUR'}).then(console.log).catch(console.error)
      */
-    getTickers(options?: ITickerRequestOptions): Promise<any> {
+    public getTickers(options?: ITickerRequestOptions): Promise<ITickerData[]> {
         const requestOptions = Object.assign({}, defaultTickerRequestOptions, options);
 
         const params = {
@@ -89,7 +92,7 @@ export class BerryMarketCap implements IBerryMarketCap {
      * const berryCapClient = new BerryMarketCap()
      * berryCapClient.getGlobal({convert: 'GBP'}).then(console.log).catch(console.error)
      */
-    getGlobal(options?: IGlobalRequestOptions): Promise<any> {
+    public getGlobal(options?: IGlobalRequestOptions): Promise<any> {
         const requestOptions = Object.assign({}, defaultGlobalRequestOptions, options);
 
         const params = {};
@@ -104,9 +107,3 @@ export class BerryMarketCap implements IBerryMarketCap {
             .then(this.handleResponse)
     }
 }
-
-function createBerryMarketCapClient(options?: IClientOptions): IBerryMarketCap {
-    return new BerryMarketCap(options);
-}
-
-export default createBerryMarketCapClient;

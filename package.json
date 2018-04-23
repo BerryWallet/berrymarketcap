@@ -1,20 +1,22 @@
 {
     "name": "berrymarketcap",
-    "version": "1.3.0",
-    "description": "BerryMarketCap is CoinMarketCap API client - TypeScript and JavaScript library",
+    "version": "1.4.0",
+    "description": "BerryMarketCap is JavaScript library CoinMarketCap API client with TS typing",
     "repository": {
         "url": "https://github.com/BerryWallet/berrymarketcap",
         "type": "git"
     },
     "homepage": "https://github.com/BerryWallet",
+    "author": "Berrywallet <berry@berrywallet.com>",
     "license": "LGPL-3.0",
-    "main": "dist/client.js",
+    "main": "./dest/index.js",
+    "typings": "index.d.ts",
     "dependencies": {
         "axios": "^0.17.1"
     },
     "devDependencies": {
-        "babel-register": "^6.26.0",
         "@types/axios": "^0.14.0",
+        "assert": "^1.4.1",
         "awesome-typescript-loader": "3.1.3",
         "axios": "^0.17.0",
         "babel-cli": "^6.26.0",
@@ -25,15 +27,20 @@
         "babel-preset-es2015": "^6.24.1",
         "babel-preset-node6": "^11.0.0",
         "babel-preset-stage-0": "^6.24.1",
+        "babel-register": "^6.26.0",
         "babel-runtime": "6.11.6",
         "file-loader": "^1.1.5",
         "gulp": "^3.9.1",
         "gulp-typescript": "^3.2.3",
         "gulp-webpack": "^1.5.0",
+        "istanbul": "^0.4.5",
         "jshint": "^2.9.5",
+        "mocha": "^5.1.1",
         "typescript": "^2.6.2"
     },
     "scripts": {
-        "build": "$(npm bin)/gulp build"
+        "build": "$(npm bin)/gulp build",
+        "test": "$(npm bin)/mocha -t 20000",
+        "coverage": "$(npm bin)/istanbul cover node_modules/mocha/bin/_mocha -- --bail --timeout 200 --slow 99999 -R dot"
     }
 }
